@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Todo App</title>
+</head>
+
+<body>
+    <h1 class="text-2xl font-bold text-center ">
+        My Todo Application
+    </h1>
+
+    <div class="flex gap-5 item-center justify-center mt-5">
+        <input id="taskInput" type="text" placeholder="Enter Your task"
+            class="border border-gray rounded-lg outline-none px-4 ">
+
+        <button id="addBtn" class="bg-black text-white px-3 rounded-lg">
+            Add
+        </button>
+    </div>
+
+    <!-- todo list  -->
+    <ul id="totoList"></ul>
+
+    <!-- script  Start-->
+    <script>
+        const taskInput = document.getElementById("taskInput")
+        const addBtn = document.getElementById("addBtn")
+        const todoList = document.getElementById("totoList")
+
+        let todos = []
+
+        function renderTodos() {
+
+            todoList.innerHTML = ""
+
+            todos.forEach((todo) => {
+                todoList.innerHTML += `
+            <li>
+            <div class="">
+              <input type="checkbox"
+              ${todo.completed ? "checked" : ""}
+              />  
+              <span>
+            ${todo.title}    
+            </span>
+            </div>    
+            </li>
+            `
+            })
+        }
+
+
+        addBtn.addEventListener("click", () => {
+            const task = taskInput.value
+            todos.push({
+                title: task,
+                completed: false
+            })
+            localStorage.setItem("todos", JSON.stringify(todos))
+            renderTodos()
+
+        })
+
+
+        const savedTodos = localStorage.getItem("todos")
+        // console.log("get todos from ls", savedTodos);
+        if (savedTodos) {
+            todos = JSON.parse(savedTodos)
+        }
+
+
+
+
+        renderTodos()
+    </script>
+    <!-- script  end-->
+</body>
+
+</html>
